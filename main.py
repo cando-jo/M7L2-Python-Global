@@ -32,16 +32,18 @@ karakter.top = hucre.height
 karakter.left = hucre.width
 
 dusmanlar = []
-for i in range(5):
+kalpler, kiliclar = [], []
+
+for i in range(10):
     x = random.randint(1, 7) * 50
     y = random.randint(1, 7) * 50
     dusman = Actor("düşman", topleft = (x, y))
     dusman.health = random.randint(10, 20)
     dusman.attack = random.randint(5, 10)
+    dusman.bonus = random.randint(0, 2)
     dusmanlar.append(dusman)
     
 
-    
 def harita_cizim():
     for i in range(len(haritam)):
         for j in range(len(haritam[0])):
@@ -72,6 +74,12 @@ def draw():
     screen.draw.text(karakter.attack, center=(425, 475), color = 'white', fontsize = 20)
     for i in range(len(dusmanlar)):
         dusmanlar[i].draw()
+
+    for i in range(len(kalpler)):
+        kalpler[i].draw()
+
+    for i in range(len(kiliclar)):
+        kiliclar[i].draw()
     
 def on_key_down(key):
     eski_pos = karakter.pos
@@ -92,10 +100,32 @@ def on_key_down(key):
         dusman = dusmanlar[dusman_sira]
         karakter.health -= dusman.attack
         dusman.health -= karakter.attack
+
         if karakter.health <= 0:
             exit()
         if dusman.health <= 0:
+            if dusman.bonus == 1:
+                kalp = Actor("kalp", (dusman.x, dusman.y))
+                kalpler.append(kalp)
+
+            if dusman.bonus == 2:
+                kilic = Actor("kılıç", (dusman.x, dusman.y))
+                kiliclar.append(kilic)
+                
             dusmanlar.remove(dusman)
         karakter.pos = eski_pos
-    
+
+def update(dt):
+    for i in range(len(kalpler)):
+        if karakter.colliderect(kalpler[i]):
+            karakter.health += 5
+            kalpler.pop(i)
+            break
+    for i in range(len(kiliclar)):
+        if karakter.colliderect(kiliclar[i]):
+            karakter.attack += 5
+            kiliclar.pop(i)
+            break
+            
+
         
