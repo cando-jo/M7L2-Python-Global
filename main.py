@@ -84,3 +84,24 @@ def on_key_down(key):
         karakter.y += hucre.height
     elif keyboard.up and karakter.y - hucre.height > hucre.height:
         karakter.y -= hucre.height
+
+def update(dt):
+    dusman_sira = karakter.collidelist(dusmanlar)
+    if dusman_sira != -1:
+        dusman = dusmanlar[dusman_sira]
+        karakter.health -= dusman.attack
+        dusman.health -= karakter.attack
+        if karakter.health <= 0:
+            exit()
+        if dusman.health <= 0:
+            dusmanlar.remove(dusman)
+
+        
+        
+
+        
+        
+
+
+
+    
