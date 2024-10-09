@@ -74,6 +74,8 @@ def draw():
         dusmanlar[i].draw()
     
 def on_key_down(key):
+    eski_pos = karakter.pos
+    
     if keyboard.right and karakter.x + hucre.width < WIDTH - hucre.width:
         karakter.x += hucre.width
         karakter.image = 'karakter'
@@ -85,7 +87,6 @@ def on_key_down(key):
     elif keyboard.up and karakter.y - hucre.height > hucre.height:
         karakter.y -= hucre.height
 
-def update(dt):
     dusman_sira = karakter.collidelist(dusmanlar)
     if dusman_sira != -1:
         dusman = dusmanlar[dusman_sira]
@@ -95,13 +96,6 @@ def update(dt):
             exit()
         if dusman.health <= 0:
             dusmanlar.remove(dusman)
-
-        
-        
-
-        
-        
-
-
-
+        karakter.pos = eski_pos
     
+        
